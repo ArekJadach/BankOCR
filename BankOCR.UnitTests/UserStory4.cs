@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Linq;
 
-namespace BankOcrKata
+namespace BankOCR.UnitTests
 {
     public class UserStory4
     {

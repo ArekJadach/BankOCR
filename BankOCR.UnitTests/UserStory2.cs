@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace BankOcrKata
+namespace BankOCR.UnitTests
 {
     [TestFixture]
     public class UserStory2

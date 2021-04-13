@@ -1,9 +1,6 @@
-﻿using BankOCR;
-using NUnit.Framework;
-using System;
-using System.Linq;
+﻿using NUnit.Framework;
 
-namespace BankOcrKata
+namespace BankOCR.UnitTests
 {
     [TestFixture]
     public class UserStory1
