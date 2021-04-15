@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankOCR.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,13 +9,31 @@ namespace BankOCR
     {
         public static List<string> DecodeFile(List<string> lines)
         {
+            if (lines.Count % 4 != 0)
+            {
+                Console.WriteLine("Number of lines in file is incorrect! Each number has 4 lines");
+            }
+
+            if (lines.Any(x => x.Length != 27))
+            {
+                Console.WriteLine($"Each line should contain 27 characters.");
+            }
+
             var results = new List<string>();
 
-            for (int i = 0; i < lines.Count / 4; i += 4)
+            for (int i = 0; i < lines.Count; i += 4)
             {
-                var accountNumber = Account.GetDecodedNumberWithPossibleVariations("\r\n" + lines[i] + "\r\n" + lines[i + 1] + "\r\n" + lines[i + 1]);
+                var accountNumber = new AccountNumberModel
+                {
+                    TopLine = lines[i],
+                    MiddleLine = lines[i + 1],
+                    BottomLine = lines[i + 2]
+                };
 
-                results.Add(accountNumber);
+                var accountNumberResult = Account.GetDecodedNumberWithPossibleVariations(
+                    $"\r\n{ accountNumber.TopLine }\r\n{accountNumber.MiddleLine}\r\n{accountNumber.BottomLine}");
+
+                results.Add(accountNumberResult);
             }
 
             return results;
@@ -23,21 +42,27 @@ namespace BankOCR
         public static string ParseToAccountNumber(string input)
         {
             var lines = input.Split("\r\n", StringSplitOptions.None);
-            var accountNumber = DecodeAccountNumber(lines[1], lines[2], lines[3]);
 
-            return accountNumber;
+            var accountNumber = new AccountNumberModel
+            {
+                TopLine = lines[1],
+                MiddleLine = lines[2],
+                BottomLine = lines[3]
+            };
+
+            return DecodeAccountNumber(accountNumber);
         }
 
-        public static string DecodeAccountNumber(string top, string middle, string bottom)
+        public static string DecodeAccountNumber(AccountNumberModel accountNumberModel)
         {
             var decodedAccountNumber = string.Empty;
             for (int i = 0; i < 9; i++)
             {
                 decodedAccountNumber += DecodeDigit(
-                    top.Substring(i * 3, 3),
-                    middle.Substring(i * 3, 3),
-                    bottom.Substring(i * 3, 3)
-                    );
+                    accountNumberModel.TopLine.Substring(i * 3, 3),
+                    accountNumberModel.MiddleLine.Substring(i * 3, 3),
+                    accountNumberModel.BottomLine.Substring(i * 3, 3)
+                );
             }
 
             return decodedAccountNumber;

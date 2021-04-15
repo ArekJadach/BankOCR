@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace BankOCR
 {
     // https://codingdojo.org/kata/BankOCR/
-    
+
     class Program
     {
         public const string RESULTS_SUFFIX = "_Results";
