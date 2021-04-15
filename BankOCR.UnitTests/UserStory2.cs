@@ -13,6 +13,7 @@ namespace BankOCR.UnitTests
         [TestCase("012345678", false)]
         public void Tests(string accountNumber, bool isValid)
         {
+            Assert.That(ControlSum.IsValid(accountNumber), Is.EqualTo(isValid));
         }
     }
 }

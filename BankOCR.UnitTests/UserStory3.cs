@@ -18,6 +18,7 @@ namespace BankOCR.UnitTests
   ||_  _|  | _||_|  ||_| _ ", "1234?678? ILL")]
         public void Tests(string input, string expectedResult)
         {
+            Assert.That(Account.GetDecodedAccountNumberWithDescription(input), Is.EqualTo(expectedResult));
         }
     }
 }

@@ -51,7 +51,7 @@ namespace BankOCR.UnitTests
   ||_  _|  | _||_|  ||_| _|", "123456789")]
         public void Tests(string input, string expectedResult)
         {
-
+            Assert.That(Decoder.ParseToAccountNumber(input), Is.EqualTo(expectedResult));
         }
     }
 }
